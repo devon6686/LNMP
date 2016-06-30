@@ -1,0 +1,3 @@
+dev:
+  'nginx*':
+    - lnmp.basic
