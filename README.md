@@ -1,8 +1,6 @@
 #LNMP
 salt-install LNMP(nginx1.8.1+mysql5.6.31+php5.6.22)
 
-Due to the file size of Github restriction, there are no the zip file of MySQL5.6.31.
-
 #Install
 salt-run state.orch lnmp-setup -l debug > /root/log
 
