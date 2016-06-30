@@ -1,0 +1,34 @@
+[mysqld]
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M 
+
+basedir = {{ BASEDIR }}
+datadir = {{ DATADIR }}
+socket = /var/lib/mysql/mysql.sock
+character_set_server = utf8
+log-bin = {{ DATADIR }}/mysql-bin.log
+binlog-format = ROW
+gtid-mode= ON
+log-slave-updates=true
+enforce-gtid-consistency=true
+master-info-repository=TABLE
+relay-log-info-repository=TABLE
+relay-log-recovery=ON
+sync-master-info=1
+report-port=3306
+port=3306
+innodb_file_per_table = 1
+long_query_time=5
+slow_query_log=ON
+binlog-checksum=CRC32
+master-verify-checksum=1
+slave-sql-verify-checksum=1
+binlog-rows-query-log_events=1
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+
+[mysql]
+socket = /var/lib/mysql/mysql.sock

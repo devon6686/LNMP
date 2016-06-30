@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#unpack mysql
+tar -xf /tmp/mysql-5.6.31.tar.gz -C {{BASEPATH}}/
+
+#create related directory
+mkdir /var/lib/mysql 
+chown -R {{USER}}.{{GROUP}} /var/lib/mysql 
+mkdir -pv {{DATADIR}}
+chown -R {{USER}}.{{GROUP}} {{DATADIR}}
+
+#create symlink and modify owner and group
+ln -s {{BASEPATH}}/mysql-5.6.31-linux-glibc2.5-x86_64 {{BASEPATH}}/mysql 
+chown -R {{USER}}.{{GROUP}} {{BASEDIR}}
+
+#install mysql
+cd {{BASEDIR}}
+./scripts/mysql_install_db --user={{USER}} --datadir={{DATADIR}}
+
+#delete default my.cnf
+rm -f {{BASEDIR}}/my.cnf
+
