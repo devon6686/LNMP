@@ -1,0 +1,19 @@
+#!/bin/bash
+
+mkdir {{TEMP_PATH}}
+mkdir {{LOG_PATH}}
+tar -xf /tmp/nginx-1.8.1.tar.gz
+cd nginx-1.8.1
+./configure --prefix={{PREFIX}} --sbin-path={{SBIN_FILE}} --conf-path={{CONF_FILE}} \
+--user={{USER}} --group={{GROUP}} \
+--error-log-path={{LOG_PATH}}/error.log --http-log-path={{LOG_PATH}}/access.log \
+--pid-path={{PID_FILE}} --lock-path={{LOCK_FILE}} \
+--http-client-body-temp-path={{TEMP_PATH}}/client_temp --http-proxy-temp-path={{TEMP_PATH}}/proxy_temp \
+--http-fastcgi-temp-path={{TEMP_PATH}}/fastcgi_temp --http-uwsgi-temp-path={{TEMP_PATH}}/uwsgi_temp \
+--http-scgi-temp-path={{TEMP_PATH}}/scgi_temp {{PARAMETERS}}
+
+make && make install
+
+mkdir {{WEB_ROOT}}
+mv {{PREFIX}}/html {{WEB_ROOT}}/
+
