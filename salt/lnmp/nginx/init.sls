@@ -58,6 +58,7 @@ nginx.conf:
     - defaults:
       HOSTNAME: {{ grains['host'] }}
       USER: {{ salt['pillar.get']('basic:nginx:user') }}
+      PREFIX: {{ salt['pillar.get']('basic:nginx:prefix') }}
       PID_FILE: {{ salt['pillar.get']('basic:nginx:pid_file') }}
       LOG_PATH: {{ salt['pillar.get']('basic:nginx:log_path') }}
       
