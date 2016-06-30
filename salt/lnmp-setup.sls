@@ -1,4 +1,4 @@
 include:
-  - lnmp.nginx
-  - lnmp.mysql
-  - lnmp.php
+  - nginx
+  - mysql
+  - php
