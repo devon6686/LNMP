@@ -28,7 +28,7 @@ http {
 
 #set client buffer
     client_header_buffer_size 128k;
-    large_client_header_buffers 4 128;
+    large_client_header_buffers 4 128k;
   
     include     {{PREFIX}}/nginx.conf.d/*.conf;
 
