@@ -5,6 +5,7 @@ error_log  {{LOG_PATH}}/error.log;
 pid        {{PID_FILE}};
 
 events {
+    use epoll;
     worker_connections  1024;
 }
 
