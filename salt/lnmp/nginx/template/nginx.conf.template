@@ -18,10 +18,18 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log  {{LOG_PATH}}/access.log  main;
+#normal application 'sendfile' should be "on"; applications for download or some related I/O,
+#the value should be "off"
     sendfile  	       on;
+    tcp_nodelay        on;
     tcp_nopush         on;
     keepalive_timeout  65;
     gzip 	       on;
+
+#set client buffer
+    client_header_buffer_size 128k;
+    large_client_head_buffers 4 128;
+  
     include     {{PREFIX}}/nginx.conf.d/*.conf;
 
     server {
@@ -38,5 +46,14 @@ http {
         error_page   500 502 503 504  /50x.html;
         location = /50x.html {
         }
+        
+#set nginx self to operate static follow files and expire days.
+        location ~ ^/(images|javascript|js|css|flash|media|static)/ {
+           expires 30d;
+        }
+        
+        location ~ /.ht {
+          deny all;
+      }
     }
 }
