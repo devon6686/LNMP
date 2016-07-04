@@ -61,6 +61,7 @@ nginx.conf:
       PREFIX: {{ salt['pillar.get']('basic:nginx:prefix') }}
       PID_FILE: {{ salt['pillar.get']('basic:nginx:pid_file') }}
       LOG_PATH: {{ salt['pillar.get']('basic:nginx:log_path') }}
+      WEB_ROOT: {{ salt['pillar.get']('basic:nginx:web_root') }}
       
 nginx.service:
   file.managed:
