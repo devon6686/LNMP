@@ -1,3 +1,3 @@
 dev:
-  'nginx*':
+  '*':
     - lnmp.basic
