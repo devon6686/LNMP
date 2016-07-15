@@ -1,5 +1,5 @@
 install-nginx:
   salt.state:
-    - tgt: 'nginx*'
+    - tgt: '*'
     - sls:
       - lnmp.nginx
