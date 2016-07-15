@@ -1,6 +1,6 @@
 install-php:
   salt.state:
-    - tgt: 'nginx*'
+    - tgt: '*'
     - sls:
       - lnmp.php
     - require:
