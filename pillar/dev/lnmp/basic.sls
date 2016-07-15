@@ -22,5 +22,5 @@ basic:
     fpm-user: www
     mysql_host: localhost
     mysql_socket: /var/lib/mysql/mysql.sock
-    parameter: --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php.d --with-openssl --with-freetype-dir --with-jped-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --with-mcrypt --with-bz2 --with-curl --enable-fpm --enable-xml --enable-mbstring --enable-xml --enable-session --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd
+    parameter: --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php.d --with-openssl --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --with-mcrypt --with-bz2 --with-curl --enable-fpm --enable-xml --enable-mbstring --enable-xml --enable-session --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd
    
