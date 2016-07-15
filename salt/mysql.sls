@@ -1,6 +1,6 @@
 install-mysql:
   salt.state:
-    - tgt: 'nginx*'
+    - tgt: '*'
     - sls:
       - lnmp.mysql
     - require:
