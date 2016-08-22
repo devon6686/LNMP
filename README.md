@@ -9,3 +9,7 @@ which contains commands in the following order:
 1.  salt \* state.sls lnmp.nginx [ -l debug > /root/log ]
 2.  salt \* state.sls lnmp.mysql [ -l debug > /root/log ]
 3.  salt \* state.sls lnmp.php   [ -l debug > /root/log ]
+
+
+2016-08-24 issues:
+Using unix socket for php-fpm 
