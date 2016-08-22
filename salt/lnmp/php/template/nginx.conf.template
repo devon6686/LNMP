@@ -1,5 +1,6 @@
 user  {{USER}};
 worker_processes  auto;
+worker_rlimit_nofile 65535;
 
 error_log  {{LOG_PATH}}/error.log;
 pid        {{PID_FILE}};
@@ -26,11 +27,11 @@ http {
     keepalive_timeout  65;
     gzip 	       on;
 
-#set client buffer
+##########set client buffer
     client_header_buffer_size 128k;
     large_client_header_buffers 4 128k;
   
-    include     {{PREFIX}}/nginx.conf.d/*.conf;
+    include     conf.d/*.conf;
 
     server {
         listen           80;
@@ -47,15 +48,14 @@ http {
         location = /50x.html {
         }
         
-#set nginx self to operate static follow files and expire days.
+#######set nginx self to operate static follow files and expire days.
         location ~ ^/(images|javascript|js|css|flash|media|static)/ {
            expires 30d;
         }
 
         location ~ \.php$ {
             try_files $uri =404;
-
-            fastcgi_pass    127.0.0.1:9000;
+            fastcgi_pass    unix:{{FPM_SOCKET}};
             fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
             include         fastcgi_params;
         }

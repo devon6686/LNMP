@@ -8,15 +8,6 @@ php-env:
       - libcurl-devel
       - libmcrypt-devel
 
-php-user:
-  user.present:
-    - name: www
-    - system: True
-    - createhome: False
-    - shell: /bin/shell
-    - empty_password: True
-    - unless: id www
-
 php-package:
   file.managed:
     - name: /tmp/php-5.6.22.tar.bz2
@@ -29,12 +20,11 @@ php-install:
     - template: jinja
     - defaults:
       PREFIX: {{ salt['pillar.get']('basic:php:prefix') }}
-      USER: {{ salt['pillar.get']('basic:php:user') }}
-      GROUP: {{ salt['pillar.get']('basic:php:group') }}
+      USER: {{ salt['pillar.get']('basic:php:fpm-user') }}
+      GROUP: {{ salt['pillar.get']('basic:php:fpm-user') }}
       PARAMETER: {{ salt['pillar.get']('basic:php:parameter') }}
     - require:
       - pkg: php-env
-      - user: php-user
       - file: php-package
     - unless: test -e /usr/local/php
     - env:
@@ -50,6 +40,11 @@ php-fpm.conf:
   file.managed:
     - name: /usr/local/php/etc/php-fpm.conf
     - source: salt://lnmp/php/template/php-fpm.conf
+    - template: jinja
+    - defaults:
+      USER: {{ salt['pillar.get']('basic:php:fpm-user') }}
+      GROUP: {{ salt['pillar.get']('basic:php:fpm-user') }}
+      FPM_SOCKET: {{ salt['pillar.get']('basic:php:fpm_socket') }}
 
 php.ini:
   file.managed:
@@ -74,14 +69,20 @@ php-path:
     - name: source /etc/profile.d/php.sh
     - require: 
       - file: php.sh
+
+daemon-reload:
+  cmd.run:
+    - name: systemctl daemon-reload
+    - require:
+      - file: php-fpm.conf
+      - file: php.ini
+      - cmd: php-install
       
 php-fpm:
   service.running:
     - enable: True
     - require:
-      - cmd: php-install
-      - file: php.ini
-      - file: php-fpm.conf
+      - cmd: daemon-reload
     - watch:
       - file: fpm-file 
 
@@ -97,18 +98,12 @@ nginx.conf:
       PID_FILE: {{ salt['pillar.get']('basic:nginx:pid_file') }}
       LOG_PATH: {{ salt['pillar.get']('basic:nginx:log_path') }}
       WEB_ROOT: {{ salt['pillar.get']('basic:nginx:web_root') }}
-
-fastcgi.conf:
-  file.managed:
-    - name: /etc/nginx/fastcgi.conf 
-    - source: salt://lnmp/php/template/fastcgi.conf
-    - mode: 0644
+      FPM_SOCKET: {{ salt['pillar.get']('basic:php:fpm_socket') }}
 
 nginx.service:
   cmd.run:
     - name: systemctl reload nginx
     - require:
       - file: nginx.conf
-      - file: fastcgi.conf
       - service: php-fpm 
       
