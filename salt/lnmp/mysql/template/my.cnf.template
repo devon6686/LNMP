@@ -30,5 +30,5 @@ slave-sql-verify-checksum=1
 binlog-rows-query-log_events=1
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
 
-[mysql]
+[client]
 socket = /var/lib/mysql/mysql.sock
